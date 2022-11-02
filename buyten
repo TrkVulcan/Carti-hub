@@ -1,0 +1,39 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+    end
+    
+wait(1)
+
+if game.PlaceId == 8304191830 then
+    getgenv().Checkcandyten = false
+end
+
+while Checkcandyten do
+
+    local candy = game:GetService("Players").LocalPlayer["_stats"]["_resourceCandies"]
+    
+    local value = candy.Value
+
+    local shardvalue = tonumber(string.match(value, '%d+'))
+
+    print(shardvalue)
+
+    if shardvalue > 1499 then
+
+    local args = {
+        [1] = "capsule_halloween",
+        [2] = "event",
+        [3] = "event_shop",
+        [4] = true
+    }
+    
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+end
+
+task.wait(0.5)
+
+if game.PlaceId == 8349889591 then
+    task.wait(1)
+    Checkcandyten = false
+end
+end
