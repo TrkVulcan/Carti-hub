@@ -1,0 +1,128 @@
+local webhookcheck =
+        is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+        secure_load and "Sentinel" or
+        KRNL_LOADED and "Krnl"
+   
+        local gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
+        local waves = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text)
+        local ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
+        local ttime = ctime:split(": ")
+
+    
+        if gems == ("+99999") then
+        gems = ("None Recieved")
+        end
+        
+        if candy == ("+99999") then
+            candy = ("None Recieved")
+        end
+    
+        wave = tonumber(string.match(waves, '%d+'))
+
+
+        if gems == ("None Recieved") or candy == ("None Recieved") then
+            local data = {
+                ["content"] = "",
+                ["username"] = "Carti hub | Anime Adventures",
+                ["embeds"] = {
+                    {
+                        ["author"] = {
+                            ["name"] = "Carti hub | Game Complete",
+                        },
+                        ["description"] = "**User**: ||**"..game:GetService("Players").LocalPlayer.Name.."**||",
+                        ["color"] = 12000,
+                        ["fields"] = {
+                            {
+                                ["name"] = "Total Waves:",
+                                ["value"] = "~ "..wave.. " Waves",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Time:",
+                                ["value"] = "~ "..tostring(ttime[2]).. "᲼:timer:",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Recieved Gems:",
+                                ["value"] = "~ "..gems.."",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Gems:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats.gem_amount.Value).." <:gem:997123585476927558>",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Recieved Candy:",
+                                ["value"] = "~ ".."None Recieved",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Candy:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats._resourceCandies.Value).. "᲼ :candy:",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Gold:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats.gold_amount.Value).." <:gold:1006637475067859105>",
+                                ["inline"] = false
+                            }
+                        }
+                    }
+                }
+            }
+
+        local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+        local headers = {
+        ["content-type"] = "application/json"
+        }
+        request = http_request or request or HttpPost or syn.request
+        local postweb = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+        request(postweb)
+
+        else
+            local data = {
+                ["content"] = "",
+                ["username"] = "Carti hub | Anime Adventures",
+                ["embeds"] = {
+                    {
+                        ["author"] = {
+                            ["name"] = "Carti hub | Game Complete",
+                        },
+                        ["description"] = "**User**: ||**"..game:GetService("Players").LocalPlayer.Name.."**||",
+                        ["color"] = 12000,
+                        ["fields"] = {
+                            {
+                                ["name"] = "Total Waves:",
+                                ["value"] = "~ "..wave.. " Waves",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Time:",
+                                ["value"] = "~ "..tostring(ttime[2]),
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Recieved Gems:",
+                                ["value"] = gems.." <:gem:997123585476927558>",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Gems:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats.gem_amount.Value).." <:gem:997123585476927558>",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Recieved Candy:",
+                                ["value"] = candy.. "᲼:candy:",
+                                ["inline"] = false
+                            }, {
+                                ["name"] = "Total Candy:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats._resourceCandies.Value).. "᲼:candy:",
+                                ["inline"] = false
+                            }
+                        }
+                    }
+                }
+            }
+            
+            local newdata = game:GetService("HttpService"):JSONEncode(data)
+            
+            local headers = {
+            ["content-type"] = "application/json"
+            }
+            request = http_request or request or HttpPost or syn.request
+            local postweb = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+            request(postweb)
+        end
