@@ -2,10 +2,7 @@ local webhookcheck =
         is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
         secure_load and "Sentinel" or
         KRNL_LOADED and "Krnl"
-    
-    local url =
-        "https://discord.com/api/webhooks/1038607745361903797/9PIRpPBGYWxoZOZd0GY17pyVoL0eiYGpG8lGncJ8CHK9DfhvJ2pHtVt9yRV1xq0UmOMh"
-
+   
         local gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
         local waves = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text)
         local ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
