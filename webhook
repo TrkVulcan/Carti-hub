@@ -6,7 +6,7 @@ local webhookcheck =
         local gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
         local waves = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text)
         local ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
-        local candy = tostring(game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.ResourceReward.Main.Amount.Text)
+        local candy = tostring(game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.Configuration.ResourceReward.Main.Amount.Text)
         local ttime = ctime:split(": ")
 
     
