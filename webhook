@@ -51,7 +51,7 @@ local webhookcheck =
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Recieved Candy:",
-                                ["value"] = "~ "..candy.."",
+                                ["value"] = "~ "..candy.. "᲼:candy:",
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Total Candy:",
