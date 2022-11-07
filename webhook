@@ -6,10 +6,19 @@ local webhookcheck =
         local gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
         local waves = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text)
         local ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
-        local candy = tostring(game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.Configuration.ResourceReward.Main.Amount.Text)
+        local candy = nil
         local ttime = ctime:split(": ")
 
-    
+        if game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame:FindFirstChild ("ResourceReward") then
+
+            candy = (game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.ResourceReward.Main.Amount.Text)
+        else
+
+            candy = tostring(game:GetService("Players").CloudyArrya.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.Configuration.ResourceReward.Main.Amount.Text)
+        end
+
+        print("LocalPlayer")
+       
         if gems == ("+99999") then
         gems = ("None Recieved")
         end
@@ -39,7 +48,7 @@ local webhookcheck =
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Total Time:",
-                                ["value"] = "~ "..tostring(ttime[2]).. "᲼:timer:",
+                                ["value"] = "~ "..tostring(ttime[2]).. " :timer:",
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Recieved Gems:",
@@ -51,11 +60,11 @@ local webhookcheck =
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Recieved Candy:",
-                                ["value"] = "~ "..candy.. "᲼:candy:",
+                                ["value"] = "~ "..candy.."",
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Total Candy:",
-                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats._resourceCandies.Value).. "᲼ :candy:",
+                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats._resourceCandies.Value).. " :candy:",
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Total Gold:",
@@ -75,55 +84,4 @@ local webhookcheck =
         request = http_request or request or HttpPost or syn.request
         local postweb = {Url = url, Body = newdata, Method = "POST", Headers = headers}
         request(postweb)
-
-        else
-            local data = {
-                ["content"] = "",
-                ["username"] = "Carti hub | Anime Adventures",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = "Carti hub | Game Complete",
-                        },
-                        ["description"] = "**User**: ||**"..game:GetService("Players").LocalPlayer.Name.."**||",
-                        ["color"] = 12000,
-                        ["fields"] = {
-                            {
-                                ["name"] = "Total Waves:",
-                                ["value"] = "~ "..wave.. " Waves",
-                                ["inline"] = false
-                            }, {
-                                ["name"] = "Total Time:",
-                                ["value"] = "~ "..tostring(ttime[2]),
-                                ["inline"] = false
-                            }, {
-                                ["name"] = "Recieved Gems:",
-                                ["value"] = gems.." <:gem:997123585476927558>",
-                                ["inline"] = false
-                            }, {
-                                ["name"] = "Total Gems:",
-                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats.gem_amount.Value).." <:gem:997123585476927558>",
-                                ["inline"] = false
-                            }, {
-                                ["name"] = "Recieved Candy:",
-                                ["value"] = candy.. "᲼:candy:",
-                                ["inline"] = false
-                            }, {
-                                ["name"] = "Total Candy:",
-                                ["value"] = "~ "..tostring(game.Players.LocalPlayer._stats._resourceCandies.Value).. "᲼:candy:",
-                                ["inline"] = false
-                            }
-                        }
-                    }
-                }
-            }
-            
-            local newdata = game:GetService("HttpService"):JSONEncode(data)
-            
-            local headers = {
-            ["content-type"] = "application/json"
-            }
-            request = http_request or request or HttpPost or syn.request
-            local postweb = {Url = url, Body = newdata, Method = "POST", Headers = headers}
-            request(postweb)
         end
