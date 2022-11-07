@@ -43,7 +43,7 @@ local webhookcheck =
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Recieved Gems:",
-                                ["value"] = "~ "..gems.."",
+                                ["value"] = "~ "..gems.." <:gem:997123585476927558>",
                                 ["inline"] = false
                             }, {
                                 ["name"] = "Total Gems:",
