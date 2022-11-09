@@ -29,8 +29,6 @@ local webhookcheck =
     
         wave = tonumber(string.match(waves, '%d+'))
 
-
-        if gems == ("None Recieved") or candy == ("None Recieved") then
             local data = {
                 ["content"] = "",
                 ["username"] = "Carti hub | Anime Adventures",
