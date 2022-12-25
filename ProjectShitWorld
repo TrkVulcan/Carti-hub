@@ -1,0 +1,255 @@
+-- VARIABLES
+local mobs = {} -- MOBS TABLE
+getgenv().mob = nil -- SELECTED MOB
+
+-- MOBS
+for _,v in pairs(game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+    insert = true -- VALUE TO CHECK THE MOB
+    for _,v2 in pairs(mobs) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+    if insert then table.insert(mobs, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+end
+
+-- UI LIBRARY
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))() -- GETS THE UI LIBRARY
+local Window = Rayfield:CreateWindow({
+	Name = "Carti Hub - Project New World".." - "..tostring(identifyexecutor()),
+	LoadingTitle = "Carti Hub",
+	LoadingSubtitle = "by Vulcan",
+	ConfigurationSaving = {
+		Enabled = true,
+        FolderName = ("Cartihub"), -- Create a custom folder for your hub/game
+		FileName = "Carti Hub"
+	},
+	KeySystem = false, -- Set this to true to use our key system
+	KeySettings = {
+		Title = "Carti Hub",
+		Subtitle = "Key System",
+		Note = "Join the discord (discord.gg/traphub)",
+		SaveKey = true,
+		GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+		Key = "Trapgoeshard"
+	}
+})
+
+-- MAIN
+local Tab = Window:CreateTab("Main") -- CREATES THE MAIN TAB
+local Section = Tab:CreateSection("Mob Farm") -- CREATES THE MOB FARM SECTION
+
+local Dropdown = Tab:CreateDropdown({
+    Name = "Choose Mob",
+    Options = mobs,
+    CurrentOption = "Option 1",
+    Flag = "Dropdown1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(v)
+        getgenv().mob = v
+        print(getgenv().mob)
+    end,
+ })
+
+ local Button = Tab:CreateButton({
+	Name = "Press This If You Keep Getting Kicked",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(15,false)
+	end,
+})
+
+
+ local Toggle = Tab:CreateToggle({
+    Name = "Start Mob Farm",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(v)
+        getgenv().autofarmmobs = v
+            while wait() do -- INFINITE LOOP
+                if getgenv().autofarmmobs == false then return end -- IF THE TOGGLE IS OFF THEN STOP THE LOOP
+                if getgenv().mob == nil then -- IF THE MOB ISNT SELECTED
+                    Rayfield:Notify({
+                        Title = "Error!",
+                        Content = "You havent selected a mob with the dropdown above",
+                        Duration = 3.5,
+                        Image = 4483362458,
+                        Actions = { -- Notification Buttons
+                           Ignore = {
+                              Name = "Okay!",
+                              Callback = function()
+                                getgenv().autofarmmobs = false
+                           end
+                        },
+                     },
+                     })
+                     return
+                    end
+                    local mob = game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:FindFirstChild(getgenv().mob)
+                    if mob == nil then
+                        Rayfield:Notify({
+                            Title = "Info",
+                            Content = "You havent selected a mob with the dropdown above",
+                            Duration = 0.5,
+                            Image = 4483362458,
+                            Actions = {
+                         },
+                         })
+                         while wait() do -- LOOP WHICH REPEATS UNTIL THE UNTIL IS TRUE / DONE
+                            wait() -- WAIT SO WE DONT CRASH
+                            if getgenv().autofarmmobs == false then return end -- IF THE TOGGLE IS OFF THEN STOP THE LOOP
+                            if game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:FindFirstChild(getgenv().mob) ~= nil then break; end
+                        end -- IF THE MOB IS SPAWNED THEN GO ON WITH THE AUTOFARM
+                    else
+                        local mob2 = mob
+                        while wait() do
+                            mob = game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:FindFirstChild(getgenv().mob)
+                            if mob ~= mob2 then break; end
+                            if getgenv().autofarmmobs == false then return end -- IF THE TOGGLE IS OFF THEN STOP THE LOOP
+                            if mob ~= nil then
+                                if mob:FindFirstChild("Humanoid") then
+                                    if mob.Humanoid.Health == 0 then wait(0.1) mob:Destroy() break; end -- IF THE MOB IS DEAD THEN JUST DESTROY IT FOR FASTER FARMING
+                                end
+                                if mob:FindFirstChild("HumanoidRootPart") then
+                                    teleport_table = {
+                                        location1 = mob.HumanoidRootPart.CFrame.Position
+                                        }
+                                        
+                                        local tween_s = game:GetService('TweenService')
+                                        local tweeninfo = TweenInfo.new(0.1,Enum.EasingStyle.Linear)
+                                        
+                                        local lp = game.Players.LocalPlayer
+                                        
+                                        function bypass_teleport(v)
+                                            if lp.Character and 
+                                            lp.Character:FindFirstChild('HumanoidRootPart') then
+                                                local cf = CFrame.new(v)
+                                                local a = tween_s:Create(lp.Character.HumanoidRootPart,tweeninfo,{CFrame=cf})
+                                                a:Play()
+                                            end
+                                        end
+                                        
+                                        bypass_teleport(teleport_table.location1)
+                                    end
+                                end
+                                wait() -- WAIT SO WE DONT CRASH
+                            end
+                        end
+                    end
+                end
+ })
+
+ game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS.ChildAdded:Connect(function() -- WHEN MOB SPAWNS
+    for _,v2 in pairs(mobs) do table.remove(mobs, _) end -- REMOVES ALL THE OLD MOBS
+    -- ADDS THE NEW MOBS
+    for _,v in pairs(game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+        insert = true -- VALUE TO CHECK THE MOB
+        for _,v2 in pairs(mobs) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+        if insert then table.insert(mobs, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+    end
+end)
+ 
+game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS.ChildRemoved:Connect(function() -- WHEN MOB DIES / GETS REMOVED
+    for _,v2 in pairs(mobs) do table.remove(mobs, _) end -- REMOVES ALL THE OLD MOBS
+    -- ADDS THE NEW MOBS
+    for _,v in pairs(game:GetService("Workspace")["NPC Zones"]["Starter Island"].NPCS:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+        insert = true -- VALUE TO CHECK THE MOB
+        for _,v2 in pairs(mobs) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+        if insert then table.insert(mobs, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+    end
+    Dropdown:Set(mobs)
+end)
+
+function Testweb()
+    spawn(function()
+        while getgenv().KA == true do
+            local args = {
+                [1] = 1
+            }
+            
+            game:GetService("Players").LocalPlayer.Character.Combat.Punch:FireServer(unpack(args))
+            
+            task.wait()
+        end
+    end)
+end
+
+local Toggle = Tab:CreateToggle({
+    Name = "Kill Aura",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        getgenv().KA = Value
+        Testweb()
+    end,
+ })
+
+ local Tab = Window:CreateTab("Quest") -- CREATES THE MAIN TAB
+local Section = Tab:CreateSection("Quests") -- CREATES THE MOB FARM SECTION
+
+local Dropdown = Tab:CreateDropdown({
+    Name = "Choose Quest",
+    Options = {"Thiefs","Bandits","Bandit Boss"},
+    CurrentOption = "Select",
+    Flag = "Dropdown2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(v)
+        getgenv().quest = v
+        while getgenv().quest == v do 
+        if getgenv().quest == "Thiefs" then
+            local args = {
+                [1] = workspace.Npc_Workspace.QuestGivers["1"]["1"],
+                [2] = "Level 1"
+            }
+            
+            game:GetService("Players").LocalPlayer.PlayerGui.QuestGui.QuestFunction:InvokeServer(unpack(args))
+        elseif getgenv().quest == "Bandits" then 
+            local args = {
+                [1] = workspace.Npc_Workspace.QuestGivers["1"]["1"],
+                [2] = "Level 10"
+            }
+            
+            game:GetService("Players").LocalPlayer.PlayerGui.QuestGui.QuestFunction:InvokeServer(unpack(args))
+        elseif getgenv().quest == "Bandit Boss" then
+            local args = {
+                [1] = workspace.Npc_Workspace.QuestGivers["1"]["1"],
+                [2] = "Level 25"
+            }
+            
+            game:GetService("Players").LocalPlayer.PlayerGui.QuestGui.QuestFunction:InvokeServer(unpack(args))
+        end
+    end
+    end,
+ })
+
+ function Testweb()
+    spawn(function()
+        while getgenv().KA == true do
+            local args = {
+                [1] = 1
+            }
+            
+            game:GetService("Players").LocalPlayer.Character.Combat.Punch:FireServer(unpack(args))
+            
+            task.wait()
+        end
+    end)
+end
+
+local Tab = Window:CreateTab("Stats") -- CREATES THE MAIN TAB
+local Section = Tab:CreateSection("Auto Stats")
+
+local Dropdown = Tab:CreateDropdown({
+    Name = "Choose Stat",
+    Options = {"Combat","Defense","Sword","Fruit"},
+    CurrentOption = "Select",
+    Flag = "Dropdown2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(v)
+        getgenv().stat = v
+       
+        while getgenv().stat == v do  
+            task.wait()
+            local args = {
+                [1] = v,
+                [2] = 1
+            }
+            
+            game:GetService("ReplicatedStorage").Replication.ClientEvents.Stats_Event:FireServer(unpack(args))
+            
+    end
+    end,
+ })
